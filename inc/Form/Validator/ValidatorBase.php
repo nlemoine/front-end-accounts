@@ -21,18 +21,14 @@ abstract class ValidatorBase implements ValidatorInterface
         $this->setMessage($msg);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function setMessage($errmsg)
     {
         $this->msg = $errmsg;
         return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function getMessage()
     {
         return $this->msg;
@@ -43,7 +39,7 @@ abstract class ValidatorBase implements ValidatorInterface
      */
     public function valid($val)
     {
-        if (false === $this->isValid($val)) {
+        if ($this->isValid($val) === false) {
             throw new ValidationException($this->getMessage());
         }
 

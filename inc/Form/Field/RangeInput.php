@@ -14,9 +14,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class RangeInput extends NumberInput
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getType()
     {
         return 'range';

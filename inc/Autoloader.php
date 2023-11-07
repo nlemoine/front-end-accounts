@@ -12,7 +12,7 @@
 
 namespace Chrisguitarguy\FrontEndAccounts;
 
-!defined('ABSPATH') && exit;
+!\defined('ABSPATH') && exit;
 
 /**
  * A simple, almost PSR-0 Compliant autoloader. Strips out the $prefix and
@@ -53,56 +53,12 @@ class Autoloader
     private static $ins = null;
 
     /**
-     * Get an instance of the autoloader. Used with `spl_autoload_register`
-     *
-     * @since   0.1
-     * @access  public
-     * @return  Chrisguitarguy\FrontEnd\Accounts\Autoloader
-     * @static
-     */
-    public static function instance()
-    {
-        if (is_null(self::$ins)) {
-            self::$ins = new self(__NAMESPACE__, __DIR__);
-        }
-
-        return self::$ins;
-    }
-
-    /**
-     * Register the autoloader.
-     *
-     * @since   0.1
-     * @access  public
-     * @return  void
-     * @static
-     */
-    public static function register()
-    {
-        spl_autoload_register(self::instance());
-    }
-
-    /**
-     * Unregister the autoloader.
-     *
-     * @since   0.1
-     * @access  public
-     * @return  void
-     * @static
-     */
-    public static function unregister()
-    {
-        spl_autoload_unregister(self::instance());
-    }
-
-    /**
      * Constructor. Set the namespace prefix and directory.
      *
      * @since   0.1
      * @access  public
      * @param   string $ns The namespace prefix
      * @param   string $dir The directory
-     * @return  void
      */
     public function __construct($ns, $dir)
     {
@@ -123,13 +79,54 @@ class Autoloader
         if ($cls = $this->resolveName($cls)) {
             $path = $this->dir . $cls . '.php';
 
-            if (file_exists($path)) {
+            if (\file_exists($path)) {
                 require_once $path;
                 return true;
             }
         }
 
         return false;
+    }
+
+    /**
+     * Get an instance of the autoloader. Used with `spl_autoload_register`
+     *
+     * @since   0.1
+     * @access  public
+     * @return  Chrisguitarguy\FrontEnd\Accounts\Autoloader
+     * @static
+     */
+    public static function instance()
+    {
+        if (self::$ins === null) {
+            self::$ins = new self(__NAMESPACE__, __DIR__);
+        }
+
+        return self::$ins;
+    }
+
+    /**
+     * Register the autoloader.
+     *
+     * @since   0.1
+     * @access  public
+     * @static
+     */
+    public static function register()
+    {
+        \spl_autoload_register(self::instance());
+    }
+
+    /**
+     * Unregister the autoloader.
+     *
+     * @since   0.1
+     * @access  public
+     * @static
+     */
+    public static function unregister()
+    {
+        \spl_autoload_unregister(self::instance());
     }
 
     /**
@@ -144,17 +141,17 @@ class Autoloader
      */
     private function resolveName($cls)
     {
-        $cls = ltrim($cls, '\\');
+        $cls = \ltrim($cls, '\\');
 
         // if we don't have a class in this namespace don't bother.
-        if (0 !== strpos($cls, $this->prefix)) {
+        if (\strpos($cls, $this->prefix) !== 0) {
             return false;
         }
 
-        return str_replace(
-            array('\\', '_'),
+        return \str_replace(
+            ['\\', '_'],
             DIRECTORY_SEPARATOR,
-            str_replace($this->prefix, '', $cls)
+            \str_replace($this->prefix, '', $cls)
         );
     }
 }

@@ -14,9 +14,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class ColorInput extends InputBase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getType()
     {
         return 'color';

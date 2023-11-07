@@ -16,6 +16,6 @@ class Float extends ValidatorBase
 {
     public function isValid($val)
     {
-        return filter_var($val, FILTER_VALIDATE_FLOAT);
+        return \filter_var($val, FILTER_VALIDATE_FLOAT);
     }
 }

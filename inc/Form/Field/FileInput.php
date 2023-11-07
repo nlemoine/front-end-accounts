@@ -14,9 +14,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class FileInput extends InputBase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getType()
     {
         return 'file';

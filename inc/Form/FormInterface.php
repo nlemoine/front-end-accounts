@@ -25,7 +25,6 @@ interface FormInterface
      *
      * @since   0.1
      * @access  public
-     * @return  void
      */
     public function render();
 
@@ -34,7 +33,6 @@ interface FormInterface
      *
      * @since   0.2
      * @param   string $field
-     * @return  void
      */
     public function renderField($field);
 
@@ -52,8 +50,6 @@ interface FormInterface
      *
      * @since   0.1
      * @access  public
-     * @param   array $formdata The data to bind
-     * @return  void
      */
     public function bind(array $data);
 
@@ -66,7 +62,7 @@ interface FormInterface
      * @param   array $args The field's display arguments
      * @return  Field\FieldInterface The field that was added
      */
-    public function addField($field_id, array $args=[]);
+    public function addField($field_id, array $args = []);
 
     /**
      * Remove a field from the form.

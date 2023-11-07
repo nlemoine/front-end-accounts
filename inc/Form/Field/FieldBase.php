@@ -13,7 +13,6 @@
 namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 use Chrisguitarguy\FrontEndAccounts\Form\Validator\ValidatorInterface;
-use Chrisguitarguy\FrontEndAccounts\Form\Validator\ValidationException;
 
 /**
  * Implement some common methods for fields.
@@ -22,22 +21,22 @@ use Chrisguitarguy\FrontEndAccounts\Form\Validator\ValidationException;
  */
 abstract class FieldBase
 {
-    protected $args = array();
+    protected $args = [];
 
     private $value = '';
 
     private $name = '';
 
-    public function __construct($name, array $args=array())
+    public function __construct($name, array $args = [])
     {
         $this->setName($name);
-        $this->args = $this->setDefaults($args, array(
-            'validators'    => array(),
+        $this->args = $this->setDefaults($args, [
+            'validators'    => [],
             'label'         => '',
             'type'          => '',
             'errmsg'        => false,
             'class'         => 'frontend-accounts-field',
-        ));
+        ]);
     }
 
     /**
@@ -89,9 +88,9 @@ abstract class FieldBase
                     }
 
                     $res = $validator->valid($res);
-                } elseif (is_callable($validator)) {
+                } elseif (\is_callable($validator)) {
                     // it's up to the callable to throw exceptions...
-                    $res = call_user_func($validator, $res);
+                    $res = \call_user_func($validator, $res);
                 }
             } catch (\Exception $e) {
                 $this->args['class'] .= ' error';
@@ -107,13 +106,13 @@ abstract class FieldBase
      */
     public function label()
     {
-        printf(
+        \printf(
             '<label for="%1$s" class="field-type-%2$s">%3$s%4$s%5$s</label>',
             $this->escAttr($this->getName()),
             $this->escAttr($this->getArg('type', 'unknown')),
-            apply_filters('frontend_accounts_before_field_label', '', $this->getName()),
+            \apply_filters('frontend_accounts_before_field_label', '', $this->getName()),
             $this->escHtml($this->getArg('label', '')),
-            apply_filters('frontend_accounts_after_field_label', '', $this->getName())
+            \apply_filters('frontend_accounts_after_field_label', '', $this->getName())
         );
     }
 
@@ -146,7 +145,7 @@ abstract class FieldBase
      */
     protected function setDefaults(array $args, array $default)
     {
-        return array_replace($default, $args);
+        return \array_replace($default, $args);
     }
 
     /**
@@ -162,7 +161,7 @@ abstract class FieldBase
         // return filter_var($attr, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         // XXX WP Specific
-        return esc_attr($attr);
+        return \esc_attr($attr);
     }
 
     /**
@@ -178,7 +177,7 @@ abstract class FieldBase
         // return filter_var($html, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
         // XXX WP Specific
-        return esc_html($html);
+        return \esc_html($html);
     }
 
     /**
@@ -190,9 +189,9 @@ abstract class FieldBase
      * @param   mixed $default The default to return otherwise
      * @return  mixed
      */
-    protected function getArg($key, $default=null)
+    protected function getArg($key, $default = null)
     {
-        return array_key_exists($key, $this->args) ? $this->args[$key] : $default;
+        return \array_key_exists($key, $this->args) ? $this->args[$key] : $default;
     }
 
     /**
@@ -204,17 +203,17 @@ abstract class FieldBase
      */
     protected function getAdditionalAttributes()
     {
-        $attr = array();
+        $attr = [];
 
         if (!empty($this->args['required'])) {
             $attr['required'] = 'required';
         }
 
-        $supportedAttributes = apply_filters('frontend_accounts_supported_fields_attr', array(
+        $supportedAttributes = \apply_filters('frontend_accounts_supported_fields_attr', [
             'class',
             'placeholder',
             'autocomplete',
-        ), $this);
+        ], $this);
 
         foreach ($supportedAttributes as $attrName) {
             if ($attrVal = $this->getArg($attrName)) {
@@ -236,9 +235,9 @@ abstract class FieldBase
     {
         $out = '';
 
-        $attr = apply_filters('frontend_accounts_field_attr', $attr, $this);
+        $attr = \apply_filters('frontend_accounts_field_attr', $attr, $this);
         foreach ($attr as $key => $val) {
-            $out .= sprintf(' %1$s="%2$s"', $key, $this->escAttr($val));
+            $out .= \sprintf(' %1$s="%2$s"', $key, $this->escAttr($val));
         }
 
         return $out;

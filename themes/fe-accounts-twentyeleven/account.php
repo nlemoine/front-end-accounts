@@ -1,7 +1,6 @@
 <?php
 /**
  * Template for displaying account pages.
- *
  */
 
 !defined('ABSPATH') && exit;

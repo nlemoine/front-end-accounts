@@ -14,17 +14,12 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class NumberInput extends InputBase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getType()
     {
         return 'number';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getAdditionalAttributes()
     {
         $atts = parent::getAdditionalAttributes();

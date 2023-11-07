@@ -14,9 +14,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class MonthInput extends InputBase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getType()
     {
         return 'month';

@@ -20,7 +20,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 abstract class InputBase extends FieldBase implements FieldInterface
 {
     /**
-     * {@inheritdoc}
      * @see     Chrisguitarguy\FrontEndAccounts\Form\Field\FieldInterface::render();
      */
     public function render()
@@ -29,11 +28,11 @@ abstract class InputBase extends FieldBase implements FieldInterface
 
         $attr = $this->getAdditionalAttributes();
 
-        printf(
+        \printf(
             '<input type="%1$s" id="%2$s" name="%2$s" value="%3$s" %4$s />',
             $this->escAttr($t),
             $this->escAttr($this->getName()),
-            'password' === $t ? '' : $this->escAttr($this->getValue()),
+            $t === 'password' ? '' : $this->escAttr($this->getValue()),
             $this->arrayToAttr($attr)
         );
     }

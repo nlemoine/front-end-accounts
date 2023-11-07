@@ -12,7 +12,7 @@
 
 namespace Chrisguitarguy\FrontEndAccounts;
 
-!defined('ABSPATH') && exit;
+!\defined('ABSPATH') && exit;
 
 use Chrisguitarguy\FrontEndAccounts\Form\Validator;
 
@@ -51,10 +51,10 @@ class ResetPassword extends SectionBase
             return $this->dispatchFailed($postdata, $reset_key);
         }
 
-        do_action('validate_password_reset', new \WP_Error(), $user); // XXX wp-login.php compat, not 100% compat??
+        \do_action('validate_password_reset', new \WP_Error(), $user); // XXX wp-login.php compat, not 100% compat??
 
-        if ($valid['password'] != $valid['password_again']) {
-            $this->addError('password_match', __('Password do not match.', FE_ACCOUNTS_TD));
+        if ($valid['password'] !== $valid['password_again']) {
+            $this->addError('password_match', \__('Password do not match.', FE_ACCOUNTS_TD));
 
             return $this->dispatchFailed($postdata, $reset_key);
         }
@@ -62,25 +62,25 @@ class ResetPassword extends SectionBase
         // not really a way to check of this actually worked...
         $this->setPassword($user, $valid['password']);
 
-        $this->addError('success', __('Your password has been reset.', FE_ACCOUNTS_TD));
+        $this->addError('success', \__('Your password has been reset.', FE_ACCOUNTS_TD));
 
-        do_action('frontend_accounts_reset_password_success', $postdata, $reset_key, $user, $this);
+        \do_action('frontend_accounts_reset_password_success', $postdata, $reset_key, $user, $this);
     }
 
     public function getTitle()
     {
-        return esc_html__('Reset Password', FE_ACCOUNTS_TD);
+        return \esc_html__('Reset Password', FE_ACCOUNTS_TD);
     }
 
     public function removeTemplate()
     {
-        remove_filter('template_include', [Rewrite::instance(), 'changeTemplate'], 10);
+        \remove_filter('template_include', [Rewrite::instance(), 'changeTemplate'], 10);
     }
 
     protected function showContent()
     {
         $this->getForm()->render();
-        echo $this->submit(__('Reset Password', FE_ACCOUNTS_TD));
+        echo $this->submit(\__('Reset Password', FE_ACCOUNTS_TD));
     }
 
     protected function getName()
@@ -96,11 +96,20 @@ class ResetPassword extends SectionBase
 
         $this->form = Form\Form::create();
 
-        $this->form->addField('password', ['label'         => __('Password', FE_ACCOUNTS_TD), 'type'          => 'password', 'required'      => true, 'validators'    => [new Validator\NotEmpty(__('Please enter a new password.', FE_ACCOUNTS_TD))]]);
+        $this->form->addField('password', [
+            'label'         => \__('Password', FE_ACCOUNTS_TD),
+            'type'          => 'password',
+            'required'      => true,
+            'validators'    => [new Validator\NotEmpty(\__('Please enter a new password.', FE_ACCOUNTS_TD))],
+        ]);
 
-        $this->form->addField('password_again', ['type'          => 'password', 'label'         => __('Password Again', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter your new password again.', FE_ACCOUNTS_TD))]]);
+        $this->form->addField('password_again', [
+            'type'          => 'password',
+            'label'         => \__('Password Again', FE_ACCOUNTS_TD),
+            'validators'    => [new Validator\NotEmpty(\__('Please enter your new password again.', FE_ACCOUNTS_TD))],
+        ]);
 
-        do_action('frontend_accounts_alter_reset_password_form', $this->form);
+        \do_action('frontend_accounts_alter_reset_password_form', $this->form);
 
         return $this->form;
     }
@@ -109,7 +118,7 @@ class ResetPassword extends SectionBase
     {
         global $wpdb;
 
-        if (!is_null($this->user)) {
+        if ($this->user !== null) {
             return $this->user;
         }
 
@@ -128,17 +137,17 @@ class ResetPassword extends SectionBase
     private function abort()
     {
         global $wp_query;
-        add_filter('template_redirect', $this->removeTemplate(...), 11);
-        add_filter('frontend_accounts_disable_page_title', '__return_true');
+        \add_filter('template_redirect', $this->removeTemplate(...), 11);
+        \add_filter('frontend_accounts_disable_page_title', '__return_true');
         return $wp_query->set_404();
     }
 
     private function setPassword($user, $new_pass)
     {
-        do_action('password_reset', $user, $new_pass); // XXX wp-login.php compat
+        \do_action('password_reset', $user, $new_pass); // XXX wp-login.php compat
 
-        wp_set_password($new_pass, $user->ID);
+        \wp_set_password($new_pass, $user->ID);
 
-        wp_password_change_notification($user);
+        \wp_password_change_notification($user);
     }
 }

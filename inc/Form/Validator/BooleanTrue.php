@@ -16,6 +16,6 @@ class BooleanTrue extends ValidatorBase
 {
     public function isValid($val)
     {
-        return filter_var($val, FILTER_VALIDATE_BOOLEAN);
+        return \filter_var($val, FILTER_VALIDATE_BOOLEAN);
     }
 }

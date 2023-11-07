@@ -14,9 +14,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class EmailInput extends InputBase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function getType()
     {
         return 'email';

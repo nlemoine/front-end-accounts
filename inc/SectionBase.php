@@ -12,7 +12,7 @@
 
 namespace Chrisguitarguy\FrontEndAccounts;
 
-!defined('ABSPATH') && exit;
+!\defined('ABSPATH') && exit;
 
 /**
  * Base class for account "sections" -- eg. login, account edit, forgot password
@@ -27,10 +27,10 @@ abstract class SectionBase extends AccountBase
     {
         $s = $this->getName();
 
-        add_action("frontend_accounts_init_{$s}", $this->initSection(...));
-        add_action("frontend_accounts_save_{$s}", $this->save(...), 10, 2);
-        add_action("frontend_accounts_content_{$s}", $this->content(...));
-        add_filter('frontend_accounts_registered_sections', $this->addSection(...));
+        \add_action("frontend_accounts_init_{$s}", $this->initSection(...));
+        \add_action("frontend_accounts_save_{$s}", $this->save(...), 10, 2);
+        \add_action("frontend_accounts_content_{$s}", $this->content(...));
+        \add_filter('frontend_accounts_registered_sections', $this->addSection(...));
     }
 
     public function initSection($additional)
@@ -54,37 +54,37 @@ abstract class SectionBase extends AccountBase
             <?php
             $this->act('frontend_accounts_before_title', $s);
 
-            if (apply_filters("frontend_accouts_show_title_{$s}", true, $additional)) {
-                echo '<h2 class="frontend-accounts-title">',
-                    apply_filters("frontend_accounts_title_{$s}", $this->getTitle(), $additional),
-                    '</h2>';
+        if (\apply_filters("frontend_accouts_show_title_{$s}", true, $additional)) {
+            echo '<h2 class="frontend-accounts-title">',
+            \apply_filters("frontend_accounts_title_{$s}", $this->getTitle(), $additional),
+            '</h2>';
+        }
+
+        $this->act('frontend_accounts_after_title', $s);
+
+        $errors = $this->getErrors();
+        if (!empty($errors) && \apply_filters("frontend_accounts_show_errors_{$s}", true, $additional)) {
+            echo '<div class="frontend-accounts-errors">';
+            foreach ($errors as $key => $errmsg) {
+                echo '<div class="frontend-accounts-error ', \esc_attr($key), '">', $errmsg, '</div>';
             }
+            echo '</div>';
+        }
 
-            $this->act('frontend_accounts_after_title', $s);
+        $this->act('frontend_accounts_before_form', $s);
+        ?>
 
-            $errors = $this->getErrors();
-            if( !empty($errors) && apply_filters("frontend_accounts_show_errors_{$s}", true, $additional) ) {
-                echo '<div class="frontend-accounts-errors">';
-                foreach ($errors as $key => $errmsg) {
-                    echo '<div class="frontend-accounts-error ', esc_attr($key), '">', $errmsg, '</div>';
-                }
-                echo '</div>';
-            }
-
-            $this->act('frontend_accounts_before_form', $s);
-            ?>
-
-            <form class="frontend-accounts-form <?php echo esc_attr($s); ?>" method="post">
+            <form class="frontend-accounts-form <?php echo \esc_attr($s); ?>" method="post">
 
                 <?php
-                $this->act('frontend_accounts_before_fields', $s);
-                if (has_action("frontend_account_renderform_{$s}")) {
-                    do_action("frontend_account_renderform_{$s}", $this->getForm(), $this);
-                } else {
-                    $this->showContent();
-                }
-                $this->act('frontend_accounts_after_fields', $s);
-                ?>
+            $this->act('frontend_accounts_before_fields', $s);
+        if (\has_action("frontend_account_renderform_{$s}")) {
+            \do_action("frontend_account_renderform_{$s}", $this->getForm(), $this);
+        } else {
+            $this->showContent();
+        }
+        $this->act('frontend_accounts_after_fields', $s);
+        ?>
 
             </form>
 
@@ -103,7 +103,7 @@ abstract class SectionBase extends AccountBase
 
     public function addError($key, $err)
     {
-        $this->errors[$key] = apply_filters(
+        $this->errors[$key] = \apply_filters(
             'frontend_accounts_' . $this->getName() . '_error_message',
             $err,
             $key,
@@ -123,7 +123,7 @@ abstract class SectionBase extends AccountBase
 
     public function getErrors()
     {
-        return apply_filters('frontend_accounts_errors_' . $this->getName(), $this->errors);
+        return \apply_filters('frontend_accounts_errors_' . $this->getName(), $this->errors);
     }
 
     abstract public function getTitle();
@@ -131,18 +131,18 @@ abstract class SectionBase extends AccountBase
     protected function submit($msg)
     {
         $section = $this->getName();
-        return sprintf(
+        return \sprintf(
             '<%1$s class="%2$s"><button type="submit" class="frontend-accounts-submit %3$s">%4$s</button></%1$s>',
-            tag_escape(apply_filters('frontend_accounts_submit_wraptag', 'p', $section) ?: 'p'),
-            esc_attr(apply_filters('frontend_accounts_submit_wrapclass', 'frontend-accounts-submit-wrap', $section)),
-            esc_attr(apply_filters('frontend_accounts_submit_buttonclass', '', $section)),
-            esc_html($msg)
+            \tag_escape(\apply_filters('frontend_accounts_submit_wraptag', 'p', $section) ?: 'p'),
+            \esc_attr(\apply_filters('frontend_accounts_submit_wrapclass', 'frontend-accounts-submit-wrap', $section)),
+            \esc_attr(\apply_filters('frontend_accounts_submit_buttonclass', '', $section)),
+            \esc_html($msg)
         );
     }
 
     protected function dispatchFailed($postdata, $additional)
     {
-        do_action('frontend_accounts_' . $this->getName() . '_failed', $postdata, $additional, $this);
+        \do_action('frontend_accounts_' . $this->getName() . '_failed', $postdata, $additional, $this);
     }
 
     /**
@@ -153,7 +153,7 @@ abstract class SectionBase extends AccountBase
      */
     protected function allowUserPasswords()
     {
-        return apply_filters('frontend_accounts_allow_user_password', false);
+        return \apply_filters('frontend_accounts_allow_user_password', false);
     }
 
     abstract protected function getName();
@@ -164,7 +164,7 @@ abstract class SectionBase extends AccountBase
 
     private function act($act, $section)
     {
-        do_action($act, $section, $this);
-        do_action("{$act}_{$section}", $this);
+        \do_action($act, $section, $this);
+        \do_action("{$act}_{$section}", $this);
     }
 }

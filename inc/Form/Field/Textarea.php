@@ -15,14 +15,13 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 class Textarea extends FieldBase implements FieldInterface
 {
     /**
-     * {@inheritdoc}
      * @see     Chrisguitarguy\FrontEndAccounts\Form\Field\FieldInterface::render();
      */
     public function render()
     {
         $attr = $this->getAdditionalAttributes();
 
-        printf(
+        \printf(
             '<textarea name="%1$s" id="%1$s" %2$s>%3$s</textarea>',
             $this->escAttr($this->getName()),
             $this->arrayToAttr($attr),

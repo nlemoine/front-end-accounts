@@ -14,13 +14,16 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Validator;
 
 class Range extends ValidatorBase
 {
-    public function __construct($msg, private readonly array $choices=[])
-    {
+    public function __construct(
+        $msg,
+        private readonly array $choices = [
+        ]
+    ) {
         $this->setMessage($msg);
     }
 
     protected function isValid($val)
     {
-        return in_array($val, $this->choices);
+        return \in_array($val, $this->choices, true);
     }
 }

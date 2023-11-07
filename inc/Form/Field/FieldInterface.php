@@ -25,7 +25,6 @@ interface FieldInterface extends \ArrayAccess
      * @since   0.1
      * @access  public
      * @param   scalar $val The value of the form field (probably a string)
-     * @return  void
      */
     public function setValue($val);
 
@@ -44,7 +43,6 @@ interface FieldInterface extends \ArrayAccess
      * @since   0.1
      * @access  public
      * @param   string $name
-     * @return  void
      */
     public function setName($name);
 
@@ -62,7 +60,6 @@ interface FieldInterface extends \ArrayAccess
      *
      * @since   0.1
      * @access  public
-     * @return  void
      */
     public function render();
 
@@ -71,7 +68,6 @@ interface FieldInterface extends \ArrayAccess
      *
      * @since   0.1
      * @access  public
-     * @return  void
      */
     public function label();
 

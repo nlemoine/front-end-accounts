@@ -12,21 +12,22 @@
 
 namespace Chrisguitarguy\FrontEndAccounts;
 
-!defined('ABSPATH') && exit;
+!\defined('ABSPATH') && exit;
 
 abstract class AccountBase
 {
-    const ACCOUNT_VAR       = 'fe_account';
-    const ADDITIONAL_VAR    = 'fe_account_add';
+    public const ACCOUNT_VAR = 'fe_account';
 
-    private static $reg = array();
+    public const ADDITIONAL_VAR = 'fe_account_add';
+
+    private static $reg = [];
 
     public static function instance()
     {
-        $cls = get_called_class();
+        $cls = static::class;
 
         if (!isset(self::$reg[$cls])) {
-            self::$reg[$cls] = new $cls;
+            self::$reg[$cls] = new $cls();
         }
 
         return self::$reg[$cls];
@@ -34,12 +35,12 @@ abstract class AccountBase
 
     public static function init()
     {
-        add_action('plugins_loaded', array(static::instance(), '_setup'), 10);
+        \add_action('plugins_loaded', [static::instance(), '_setup'], 10);
     }
 
     abstract public function _setup();
 
-    public static function url($area, $additional=null)
+    public static function url($area, $additional = null)
     {
         global $wp_rewrite;
 
@@ -51,26 +52,26 @@ abstract class AccountBase
                 $path .= '/' . $additional;
             }
 
-            if ('/' === substr($wp_rewrite->permalink_structure, -1)) {
-                $path = trailingslashit($path);
+            if (\substr($wp_rewrite->permalink_structure, -1) === '/') {
+                $path = \trailingslashit($path);
             }
         } else {
-            $q = array(
+            $q = [
                 static::ACCOUNT_VAR => $area,
-            );
+            ];
 
             if ($additional) {
                 $q[static::ADDITIONAL_VAR] = $additional;
             }
 
-            $path = '?'.http_build_query($q);
+            $path = '?' . \http_build_query($q);
         }
 
-        return apply_filters('frontend_accounts_url', home_url($path), $area, $additional);
+        return \apply_filters('frontend_accounts_url', \home_url($path), $area, $additional);
     }
 
     protected function getRole()
     {
-        return apply_filters('frontend_accounts_role', FE_ACCOUNTS_ROLE);
+        return \apply_filters('frontend_accounts_role', FE_ACCOUNTS_ROLE);
     }
 }

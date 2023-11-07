@@ -16,6 +16,6 @@ class Ip extends ValidatorBase
 {
     public function isValid($val)
     {
-        return filter_var($val, FILTER_VALIDATE_IP) === false;
+        return \filter_var($val, FILTER_VALIDATE_IP) === false;
     }
 }

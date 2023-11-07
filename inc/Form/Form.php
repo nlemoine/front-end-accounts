@@ -18,18 +18,18 @@ class Form implements FormInterface
 
     private array $bound = [];
 
-    public static function create(array $initial=[])
+    public function __construct(
+        private array $initial = [
+        ]
+    ) {
+    }
+
+    public static function create(array $initial = [])
     {
         return new self($initial);
     }
 
-    public function __construct(private array $initial=[])
-    {
-    }
 
-    /**
-     * {@inheritdoc}
-     */
     public function render()
     {
         foreach ($this->getFields() as $field) {
@@ -37,22 +37,18 @@ class Form implements FormInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function renderField($field)
     {
         $fields = $this->getFields();
         if (!isset($fields[$field])) {
-            throw new \InvalidArgumentException(sprintf('Field "%s" does not exist', $field));
+            throw new \InvalidArgumentException(\sprintf('Field "%s" does not exist', $field));
         }
 
         $this->renderRow($this->fields[$field]);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function validate()
     {
         $values = $errors = [];
@@ -73,9 +69,7 @@ class Form implements FormInterface
         return [$values, $errors];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function bind(array $data)
     {
         $this->bound = $data;
@@ -83,11 +77,9 @@ class Form implements FormInterface
     }
 
     /**
-     * {@inheritdoc}
-     *
      * @todo    Maybe lazy load classes here?
      */
-    public function addField($field_id, array $args=[])
+    public function addField($field_id, array $args = [])
     {
         $this->fields[$field_id] = $this->getFieldObject($field_id, $args);
 
@@ -98,9 +90,7 @@ class Form implements FormInterface
         return $this->fields[$field_id];
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function removeField($field_id)
     {
         if (isset($this->fields[$field_id])) {
@@ -111,17 +101,13 @@ class Form implements FormInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function getField($field_id)
     {
         return $this->fields[$field_id] ?? null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     public function getFields()
     {
         return $this->fields;
@@ -133,15 +119,15 @@ class Form implements FormInterface
             return $f->render();
         }
 
-        $tag = apply_filters('frontend_accounts_field_wraptag', 'p', $f);
-        $cls = apply_filters('frontend_accounts_field_wrapclass', sprintf('fe-accounts-field-wrap %s', $f->getName()), $f);
+        $tag = \apply_filters('frontend_accounts_field_wraptag', 'p', $f);
+        $cls = \apply_filters('frontend_accounts_field_wrapclass', \sprintf('fe-accounts-field-wrap %s', $f->getName()), $f);
 
-        printf('<%s class="%s">', tag_escape($tag), esc_attr($cls));
-        do_action('frontend_accounts_field_before_label', $f);
+        \printf('<%s class="%s">', \tag_escape($tag), \esc_attr($cls));
+        \do_action('frontend_accounts_field_before_label', $f);
         $f->label();
-        do_action('frontend_accounts_field_before_input', $f);
+        \do_action('frontend_accounts_field_before_input', $f);
         $f->render();
-        do_action('frontend_accounts_field_after_input', $f);
+        \do_action('frontend_accounts_field_after_input', $f);
         echo "</{$tag}>";
     }
 
@@ -150,31 +136,31 @@ class Form implements FormInterface
         $type = $args['type'] ?? 'text';
 
         $cls = match ($type) {
-            'text' => 'TextInput',
-            'password' => 'PasswordInput',
-            'hidden' => 'HiddenInput',
-            'color' => 'ColorInput',
-            'date' => 'DateInput',
-            'datetime' => 'DateTimeInput',
+            'text'           => 'TextInput',
+            'password'       => 'PasswordInput',
+            'hidden'         => 'HiddenInput',
+            'color'          => 'ColorInput',
+            'date'           => 'DateInput',
+            'datetime'       => 'DateTimeInput',
             'datetime-local' => 'DateTimeLocalInput',
-            'email' => 'EmailInput',
-            'month' => 'MonthInput',
-            'number' => 'NumberInput',
-            'search' => 'SearchInput',
-            'time' => 'TimeInput',
-            'url' => 'UrlInput',
-            'week' => 'WeekInput',
-            'multiple' => 'Multiple',
-            'radio' => 'Radio',
-            'select' => 'Select',
-            'textarea' => 'Textarea',
-            'checkbox' => 'Checkbox',
-            'file' => 'FileInput',
-            default => 'DummyField',
+            'email'          => 'EmailInput',
+            'month'          => 'MonthInput',
+            'number'         => 'NumberInput',
+            'search'         => 'SearchInput',
+            'time'           => 'TimeInput',
+            'url'            => 'UrlInput',
+            'week'           => 'WeekInput',
+            'multiple'       => 'Multiple',
+            'radio'          => 'Radio',
+            'select'         => 'Select',
+            'textarea'       => 'Textarea',
+            'checkbox'       => 'Checkbox',
+            'file'           => 'FileInput',
+            default          => 'DummyField',
         };
 
         $cls = "Chrisguitarguy\\FrontEndAccounts\\Form\\Field\\{$cls}";
 
-        return apply_filters('frontend_accounts_field_object', new $cls($name, $args), $name, $args);
+        return \apply_filters('frontend_accounts_field_object', new $cls($name, $args), $name, $args);
     }
 }

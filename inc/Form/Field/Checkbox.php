@@ -14,7 +14,7 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 
 class Checkbox extends FieldBase implements FieldInterface
 {
-    const CHECK_ON  = 'on';
+    public const CHECK_ON = 'on';
 
     /**
      * @see     Chrisguitarguy\FrontEndAccounts\Form\Field\FieldInterface::validate()
@@ -25,14 +25,13 @@ class Checkbox extends FieldBase implements FieldInterface
     }
 
     /**
-     * {@inheritdoc}
      * @see     Chrisguitarguy\FrontEndAccounts\Form\Field\FieldInterface::render();
      */
     public function render()
     {
         $attr = $this->getAdditionalAttributes();
 
-        printf(
+        \printf(
             '<label for="%1$s"><input type="checkbox" id="%1$s" name="%1$s" value="1" %2$s /> %3$s</label>',
             $this->escAttr($this->getName()),
             $this->arrayToAttr($attr),
@@ -40,9 +39,7 @@ class Checkbox extends FieldBase implements FieldInterface
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getAdditionalAttributes()
     {
         $atts = parent::getAdditionalAttributes();

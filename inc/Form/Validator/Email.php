@@ -16,6 +16,6 @@ class Email extends ValidatorBase
 {
     public function isValid($val)
     {
-        return filter_var($val, FILTER_VALIDATE_EMAIL);
+        return \filter_var($val, FILTER_VALIDATE_EMAIL);
     }
 }

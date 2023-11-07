@@ -15,7 +15,6 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 class Radio extends FieldBase implements FieldInterface
 {
     /**
-     * {@inheritdoc}
      * @see     Chrisguitarguy\FrontEndAccounts\Form\Field\FieldInterface::render();
      */
     public function render()
@@ -24,7 +23,7 @@ class Radio extends FieldBase implements FieldInterface
         $attr = $this->arrrayToAttr($this->getAdditionalAttributes());
 
         foreach ($this->getArg('choices', []) as $key => $label) {
-            printf(
+            \printf(
                 '<label for="%1$s[%2$s]"><input type="radio" name="%1$s" id="%1$s[%2$s]" value="%2$s" %3$s /> %4$s</label>',
                 $this->escAttr($name),
                 $this->escAttr($key),

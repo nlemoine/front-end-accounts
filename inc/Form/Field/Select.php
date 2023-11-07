@@ -15,26 +15,25 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Field;
 class Select extends FieldBase implements FieldInterface
 {
     /**
-     * {@inheritdoc}
      * @see     Chrisguitarguy\FrontEndAccounts\Form\Field\FieldInterface::render();
      */
     public function render()
     {
-        printf(
+        \printf(
             '<select id="%1$s" name="%1$s" %2$s>',
             $this->escAttr($this->getName()),
             $this->arrayToAttr($this->getAdditionalAttributes())
         );
 
         if ($emp = $this->getArg('empty_first')) {
-            printf('<option value="">%s</option>', $this->escAttr($emp));
+            \printf('<option value="">%s</option>', $this->escAttr($emp));
         }
 
         foreach ($this->getArg('choices', []) as $val => $label) {
-            printf(
+            \printf(
                 '<option value="%1$s" %2$s>%3$s</option>',
                 $this->escAttr($val),
-                selected($this->getValue(), $val, false), // XXX WordPress specific
+                \selected($this->getValue(), $val, false), // XXX WordPress specific
                 $this->escHtml($label)
             );
         }
@@ -42,9 +41,7 @@ class Select extends FieldBase implements FieldInterface
         echo '</select>';
     }
 
-    /**
-     * {@inheritdoc}
-     */
+
     protected function getAdditionalAttributes()
     {
         $atts = parent::getAdditionalAttributes();

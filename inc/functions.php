@@ -19,7 +19,6 @@ use Chrisguitarguy\FrontEndAccounts as Accounts;
  *
  * @since   0.1
  * @uses    do_action
- * @return  void
  */
 function the_account()
 {
@@ -32,7 +31,6 @@ function the_account()
  *
  * @since   0.1
  * @uses    do_action
- * @return  void
  */
 function frontend_accounts_init()
 {
@@ -45,7 +43,6 @@ function frontend_accounts_init()
  *
  * @since   0.1
  * @uses    is_admin
- * @return  void
  */
 function frontend_accounts_load()
 {
@@ -77,11 +74,12 @@ function frontend_accounts_load()
  *
  * @since   0.1
  * @uses    add_role
- * @return  void
  */
 function frontend_accounts_add_role()
 {
-    add_role(FE_ACCOUNTS_ROLE, __('Unprivileged User', FE_ACCOUNTS_TD), ['read'  => false]);
+    add_role(FE_ACCOUNTS_ROLE, __('Unprivileged User', FE_ACCOUNTS_TD), [
+        'read'  => false,
+    ]);
 }
 
 /**
@@ -89,7 +87,6 @@ function frontend_accounts_add_role()
  *
  * @since   0.1
  * @uses    remove_role
- * @return  void
  */
 function frontend_accounts_remove_role()
 {
@@ -102,7 +99,6 @@ function frontend_accounts_remove_role()
  * @since   0.1
  * @uses    frontend_accounts_add_role
  * @uses    flush_rewrite_rules
- * @return  void
  */
 function frontend_accounts_activate()
 {
@@ -117,7 +113,6 @@ function frontend_accounts_activate()
  * @since   0.1
  * @uses    frontend_accounts_remove_role
  * @uses    flush_rewrite_rule
- * @return  void
  */
 function frontend_accounts_deactivate()
 {
@@ -130,7 +125,6 @@ function frontend_accounts_deactivate()
  *
  * @since   0.1
  * @uses    register_theme_directory
- * @return  void
  */
 function frontend_accounts_register_themes()
 {

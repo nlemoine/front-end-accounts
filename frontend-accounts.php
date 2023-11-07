@@ -39,19 +39,19 @@
 
 namespace Chrisguitarguy\FrontEndAccounts;
 
-!defined('ABSPATH') && exit;
+!\defined('ABSPATH') && exit;
 
-define('FE_ACCOUNTS_VER', '0.1');
-define('FE_ACCOUNTS_ROLE', 'fe_unpriv_user');
-define('FE_ACCOUNTS_TD', 'front-end-accounts');
+\define('FE_ACCOUNTS_VER', '0.1');
+\define('FE_ACCOUNTS_ROLE', 'fe_unpriv_user');
+\define('FE_ACCOUNTS_TD', 'front-end-accounts');
 
 require_once __DIR__ . '/inc/Autoloader.php';
 require_once __DIR__ . '/inc/functions.php';
 
 Autoloader::register();
 
-register_activation_hook(__FILE__, 'frontend_accounts_activate');
-register_deactivation_hook(__FILE__, 'frontend_accounts_deactivate');
+\register_activation_hook(__FILE__, 'frontend_accounts_activate');
+\register_deactivation_hook(__FILE__, 'frontend_accounts_deactivate');
 
-add_action('plugins_loaded', 'frontend_accounts_load', 5);
-add_action('plugins_loaded', 'frontend_accounts_init', 100);
+\add_action('plugins_loaded', 'frontend_accounts_load', 5);
+\add_action('plugins_loaded', 'frontend_accounts_init', 100);

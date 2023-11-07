@@ -16,6 +16,6 @@ class Integer extends ValidatorBase
 {
     public function isValid($val)
     {
-        return filter_var($val, FILTER_VALIDATE_INT);
+        return \filter_var($val, FILTER_VALIDATE_INT);
     }
 }

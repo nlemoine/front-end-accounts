@@ -14,13 +14,19 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Validator;
 
 class Email extends ValidatorBase
 {
-    public function __construct($msg, private $regex)
-    {
+    public function __construct(
+        $msg,
+        private $regex
+    ) {
         $this->setMessage($msg);
     }
 
     public function isValid($val)
     {
-        return filter_var($this->regex, FILTER_VALIDATE_REGEXP, ['options' => ['regexp'    => $this->pattern]]);
+        return \filter_var($this->regex, FILTER_VALIDATE_REGEXP, [
+            'options' => [
+                'regexp'    => $this->pattern,
+            ],
+        ]);
     }
 }

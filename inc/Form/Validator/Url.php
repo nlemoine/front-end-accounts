@@ -17,6 +17,6 @@ class Email extends ValidatorBase
     public function isValid($val)
     {
         // XXX no asci domain names will fail
-        return filter_var($val, FILTER_VALIDATE_URL);
+        return \filter_var($val, FILTER_VALIDATE_URL);
     }
 }

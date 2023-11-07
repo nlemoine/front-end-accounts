@@ -19,7 +19,7 @@ function frontend_accounts_theme_enqueue()
     wp_enqueue_style(
         'fe-accounts-css',
         trailingslashit(get_stylesheet_directory_uri()) . 'style.css',
-        array(),
+        [],
         FE_ACCOUNTS_VER,
         'screen'
     );
