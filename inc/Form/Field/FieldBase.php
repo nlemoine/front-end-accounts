@@ -117,22 +117,22 @@ abstract class FieldBase
         );
     }
 
-    public function offsetGet($key)
+    public function offsetGet($key): mixed
     {
         return $this->args[$key];
     }
 
-    public function offsetSet($key, $val)
+    public function offsetSet($key, $val): void
     {
         $this->args[$key] = $val;
     }
 
-    public function offsetUnset($key)
+    public function offsetUnset($key): void
     {
         unset($this->args[$key]);
     }
 
-    public function offsetExists($key)
+    public function offsetExists($key): bool
     {
         return isset($this->args[$key]);
     }
