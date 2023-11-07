@@ -21,16 +21,16 @@ namespace Chrisguitarguy\FrontEndAccounts;
  */
 abstract class SectionBase extends AccountBase
 {
-    private $errors = array();
+    private array $errors = [];
 
     public function _setup()
     {
         $s = $this->getName();
 
-        add_action("frontend_accounts_init_{$s}", array($this, 'initSection'));
-        add_action("frontend_accounts_save_{$s}", array($this, 'save'), 10, 2);
-        add_action("frontend_accounts_content_{$s}", array($this, 'content'));
-        add_filter('frontend_accounts_registered_sections', array($this, 'addSection'));
+        add_action("frontend_accounts_init_{$s}", $this->initSection(...));
+        add_action("frontend_accounts_save_{$s}", $this->save(...), 10, 2);
+        add_action("frontend_accounts_content_{$s}", $this->content(...));
+        add_filter('frontend_accounts_registered_sections', $this->addSection(...));
     }
 
     public function initSection($additional)
@@ -81,7 +81,7 @@ abstract class SectionBase extends AccountBase
                 if (has_action("frontend_account_renderform_{$s}")) {
                     do_action("frontend_account_renderform_{$s}", $this->getForm(), $this);
                 } else {
-                    $this->showContent($additional);
+                    $this->showContent();
                 }
                 $this->act('frontend_accounts_after_fields', $s);
                 ?>

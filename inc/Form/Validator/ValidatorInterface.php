@@ -44,9 +44,8 @@ interface ValidatorInterface
      *
      * @since   0.1
      * @access  public
-     * @param   mixed $value
      * @throws  ValidationException on failure
      * @return  mixed the passed in $value if it was okay.
      */
-    public function valid($value);
+    public function valid(mixed $value);
 }

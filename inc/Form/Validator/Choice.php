@@ -14,12 +14,9 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Validator;
 
 class Range extends ValidatorBase
 {
-    private $choices = array();
-
-    public function __construct($msg, array $choices=array());
+    public function __construct($msg, private readonly array $choices=[])
     {
         $this->setMessage($msg);
-        $this->choices = $choices;
     }
 
     protected function isValid($val)

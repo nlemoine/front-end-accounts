@@ -25,7 +25,7 @@ class Seo extends AccountBase
 
     public function _setup()
     {
-        add_action('frontend_accounts_init', array($this, 'initSeo'));
+        add_action('frontend_accounts_init', $this->initSeo(...));
     }
 
     public function initSeo($section)
@@ -33,16 +33,16 @@ class Seo extends AccountBase
         global $wpseo_front, $aiosp;
 
         if (apply_filters('frontend_accounts_disable_wpseo', isset($wpseo_front))) {
-            remove_action('wp_head', array($wpseo_front, 'head'), 1);
+            remove_action('wp_head', [$wpseo_front, 'head'], 1);
         }
         if (apply_filters('frontend_accounts_disable_aiosp', isset($aiosp))) {
-            remove_action('wp_head', array($aiosp, 'wp_head'));
+            remove_action('wp_head', [$aiosp, 'wp_head']);
         }
 
         $this->section = $section;
 
-        add_action('wp_head', array($this, 'robotsMeta'), 1);
-        add_action('wp_title', array($this, 'accountTitle'), 100, 3);
+        add_action('wp_head', $this->robotsMeta(...), 1);
+        add_action('wp_title', $this->accountTitle(...), 100, 3);
     }
 
     public function robotsMeta()
@@ -71,19 +71,13 @@ class Seo extends AccountBase
 
     private function getSectionTitle()
     {
-        switch ($this->section) {
-            case 'login':
-                return __('Login', FE_ACCOUNTS_TD);
-            case 'forgot_password':
-                return __('Forgot Password', FE_ACCOUNTS_TD);
-            case 'register':
-                return __('Register', FE_ACCOUNTS_TD);
-            case 'reset_password':
-                return __('Reset Password', FE_ACCOUNTS_TD);
-            case 'edit':
-                return __('Edit Account', FE_ACCOUNTS_TD);
-            default:
-                return null;
-        }
+        return match ($this->section) {
+            'login' => __('Login', FE_ACCOUNTS_TD),
+            'forgot_password' => __('Forgot Password', FE_ACCOUNTS_TD),
+            'register' => __('Register', FE_ACCOUNTS_TD),
+            'reset_password' => __('Reset Password', FE_ACCOUNTS_TD),
+            'edit' => __('Edit Account', FE_ACCOUNTS_TD),
+            default => null,
+        };
     }
 }

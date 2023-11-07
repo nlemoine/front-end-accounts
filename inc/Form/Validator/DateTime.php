@@ -16,6 +16,6 @@ class DateTime extends ValidatorBase
 {
     public function isValid($val)
     {
-        return false !== @strtotime($val);
+        return false !== @strtotime((string) $val);
     }
 }

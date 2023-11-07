@@ -81,9 +81,7 @@ function frontend_accounts_load()
  */
 function frontend_accounts_add_role()
 {
-    add_role(FE_ACCOUNTS_ROLE, __('Unprivileged User', FE_ACCOUNTS_TD), array(
-        'read'  => false,
-    ));
+    add_role(FE_ACCOUNTS_ROLE, __('Unprivileged User', FE_ACCOUNTS_TD), ['read'  => false]);
 }
 
 /**

@@ -38,7 +38,7 @@ class Register extends SectionBase
 
         $form->bind($postdata);
 
-        list($valid, $errors) = $form->validate();
+        [$valid, $errors] = $form->validate();
 
         if (!empty($errors)) {
             foreach ($errors as $k => $err) {
@@ -86,7 +86,7 @@ class Register extends SectionBase
         $url = static::url('login');
 
         if ($redirect) {
-            $url = add_query_arg('redirect_to', urlencode($redirect), $url);
+            $url = add_query_arg('redirect_to', urlencode((string) $redirect), $url);
         }
 
         return $url;
@@ -114,49 +114,21 @@ class Register extends SectionBase
             return $this->form;
         }
 
-        $this->form = Form\Form::create(array(
-            'redirect_to' => isset($_GET['redirect_to']) ? $_GET['redirect_to'] : static::url('login', 'registered'),
-        ));
+        $this->form = Form\Form::create(['redirect_to' => $_GET['redirect_to'] ?? static::url('login', 'registered')]);
 
-        $this->form->addField('email', array(
-            'type'          => 'email',
-            'label'         => __('Email', FE_ACCOUNTS_TD),
-            'validators'    => array(
-                new Validator\Email(__('Please enter a valid email', FE_ACCOUNTS_TD)),
-            ),
-        ));
+        $this->form->addField('email', ['type'          => 'email', 'label'         => __('Email', FE_ACCOUNTS_TD), 'validators'    => [new Validator\Email(__('Please enter a valid email', FE_ACCOUNTS_TD))]]);
 
         // NOTE: this does not check for invalid character. WP removes them
         // via the `sanitize_user` function.
-        $this->form->addField('username', array(
-            'type'          => 'text',
-            'label'         => __('Username', FE_ACCOUNTS_TD),
-            'validators'    => array(
-                new Validator\NotEmpty(__('Please enter a username', FE_ACCOUNTS_TD)),
-            ),
-        ));
+        $this->form->addField('username', ['type'          => 'text', 'label'         => __('Username', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter a username', FE_ACCOUNTS_TD))]]);
 
         if ($this->allowUserPasswords()) {
-            $this->form->addField('password', array(
-                'type'          => 'password',
-                'label'         => __('Password', FE_ACCOUNTS_TD),
-                'validators'    => array(
-                    new Validator\NotEmpty(__('Please enter a password', FE_ACCOUNTS_TD)),
-                ),
-            ));
+            $this->form->addField('password', ['type'          => 'password', 'label'         => __('Password', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter a password', FE_ACCOUNTS_TD))]]);
 
-            $this->form->addField('password_again', array(
-                'type'          => 'password',
-                'label'         => __('Password (Again)', FE_ACCOUNTS_TD),
-                'validators'    => array(
-                    new Validator\NotEmpty(__('Please enter a password', FE_ACCOUNTS_TD)),
-                ),
-            ));
+            $this->form->addField('password_again', ['type'          => 'password', 'label'         => __('Password (Again)', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter a password', FE_ACCOUNTS_TD))]]);
         }
 
-        $this->form->addField('redirect_to', array(
-            'type'          => 'hidden',
-        ));
+        $this->form->addField('redirect_to', ['type'          => 'hidden']);
 
         do_action('frontend_accounts_alter_register_form', $this->form);
 
@@ -241,7 +213,7 @@ class Register extends SectionBase
         }
 
         // switch the login url for the new user notification
-        add_filter('login_url', array($this, 'switchLoginUrl'), 10, 2);
+        add_filter('login_url', $this->switchLoginUrl(...), 10, 2);
 
         // if the user hasn't registered with a password, send them a notification
         // email with a link to reset it.
@@ -254,7 +226,7 @@ class Register extends SectionBase
         }
 
         // back to normal on the login url
-        remove_filter('login_url', array($this, 'switchLoginUrl'), 10, 2);
+        remove_filter('login_url', $this->switchLoginUrl(...), 10, 2);
 
         return $user_id;
     }

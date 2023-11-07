@@ -41,7 +41,7 @@ class Login extends SectionBase
 
         $form->bind($data);
 
-        list($data, $errors) = $form->validate();
+        [$data, $errors] = $form->validate();
 
         if (!empty($errors)) {
             foreach ($errors as $k => $err) {
@@ -114,33 +114,15 @@ class Login extends SectionBase
             return $this->form;
         }
 
-        $this->form = Form\Form::create(array(
-            'redirect_to' => isset($_GET['redirect_to']) ? $_GET['redirect_to'] : null,
-        ));
+        $this->form = Form\Form::create(['redirect_to' => $_GET['redirect_to'] ?? null]);
 
-        $this->form->addField('log', array(
-            'label'         => __('Username', FE_ACCOUNTS_TD),
-            'validators'    => array(
-                new Validator\NotEmpty(__('Please enter a username', FE_ACCOUNTS_TD)),
-            ),
-        ));
+        $this->form->addField('log', ['label'         => __('Username', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter a username', FE_ACCOUNTS_TD))]]);
 
-        $this->form->addField('pwd', array(
-            'type'          => 'password',
-            'label'         => __('Password', FE_ACCOUNTS_TD),
-            'validators'    => array(
-                new Validator\NotEmpty(__('Please enter a password', FE_ACCOUNTS_TD)),
-            ),
-        ));
+        $this->form->addField('pwd', ['type'          => 'password', 'label'         => __('Password', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter a password', FE_ACCOUNTS_TD))]]);
 
-        $this->form->addField('rememberme', array(
-            'type'          => 'checkbox',
-            'label'         => __('Remember Me', FE_ACCOUNTS_TD),
-        ));
+        $this->form->addField('rememberme', ['type'          => 'checkbox', 'label'         => __('Remember Me', FE_ACCOUNTS_TD)]);
 
-        $this->form->addField('redirect_to', array(
-            'type'          => 'hidden',
-        ));
+        $this->form->addField('redirect_to', ['type'          => 'hidden']);
 
         do_action('frontend_accounts_alter_login_form', $this->form);
 
@@ -149,15 +131,10 @@ class Login extends SectionBase
 
     private function getWpErrorMessage($code)
     {
-        switch ($code) {
-        case 'invalid_username':
-        case 'incorrect_password':
-            $msg = __('Invalid username and/or password', FE_ACCOUNTS_TD);
-            break;
-        default:
-            $msg = __('Error logging in', FE_ACCOUNTS_TD);
-            break;
-        }
+        $msg = match ($code) {
+            'invalid_username', 'incorrect_password' => __('Invalid username and/or password', FE_ACCOUNTS_TD),
+            default => __('Error logging in', FE_ACCOUNTS_TD),
+        };
 
         return apply_filters('frontend_accounts_login_wp_error_message', $msg, $code);
     }

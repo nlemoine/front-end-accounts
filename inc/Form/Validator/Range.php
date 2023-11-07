@@ -14,16 +14,9 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Validator;
 
 class Range extends ValidatorBase
 {
-    private $min;
-
-    private $max;
-
-    public function __construct($msg, $min, $max=null)
+    public function __construct($msg, private $min, private $max=null)
     {
         $this->setMessage($msg);
-
-        $this->min = $min;
-        $this->max = $max;
     }
 
     protected function isValid($val)

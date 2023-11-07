@@ -30,7 +30,7 @@ class Select extends FieldBase implements FieldInterface
             printf('<option value="">%s</option>', $this->escAttr($emp));
         }
 
-        foreach ($this->getArg('choices', array()) as $val => $label) {
+        foreach ($this->getArg('choices', []) as $val => $label) {
             printf(
                 '<option value="%1$s" %2$s>%3$s</option>',
                 $this->escAttr($val),

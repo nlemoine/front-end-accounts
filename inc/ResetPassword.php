@@ -41,7 +41,7 @@ class ResetPassword extends SectionBase
 
         $form->bind($postdata);
 
-        list($valid, $errors) = $form->validate();
+        [$valid, $errors] = $form->validate();
 
         if (!empty($errors)) {
             foreach ($errors as $k => $err) {
@@ -74,7 +74,7 @@ class ResetPassword extends SectionBase
 
     public function removeTemplate()
     {
-        remove_filter('template_include', array(Rewrite::instance(), 'changeTemplate'), 10);
+        remove_filter('template_include', [Rewrite::instance(), 'changeTemplate'], 10);
     }
 
     protected function showContent()
@@ -96,22 +96,9 @@ class ResetPassword extends SectionBase
 
         $this->form = Form\Form::create();
 
-        $this->form->addField('password', array(
-            'label'         => __('Password', FE_ACCOUNTS_TD),
-            'type'          => 'password',
-            'required'      => true,
-            'validators'    => array(
-                new Validator\NotEmpty(__('Please enter a new password.', FE_ACCOUNTS_TD)),
-            ),
-        ));
+        $this->form->addField('password', ['label'         => __('Password', FE_ACCOUNTS_TD), 'type'          => 'password', 'required'      => true, 'validators'    => [new Validator\NotEmpty(__('Please enter a new password.', FE_ACCOUNTS_TD))]]);
 
-        $this->form->addField('password_again', array(
-            'type'          => 'password',
-            'label'         => __('Password Again', FE_ACCOUNTS_TD),
-            'validators'    => array(
-                new Validator\NotEmpty(__('Please enter your new password again.', FE_ACCOUNTS_TD)),
-            ),
-        ));
+        $this->form->addField('password_again', ['type'          => 'password', 'label'         => __('Password Again', FE_ACCOUNTS_TD), 'validators'    => [new Validator\NotEmpty(__('Please enter your new password again.', FE_ACCOUNTS_TD))]]);
 
         do_action('frontend_accounts_alter_reset_password_form', $this->form);
 
@@ -141,7 +128,7 @@ class ResetPassword extends SectionBase
     private function abort()
     {
         global $wp_query;
-        add_filter('template_redirect', array($this, 'removeTemplate'), 11);
+        add_filter('template_redirect', $this->removeTemplate(...), 11);
         add_filter('frontend_accounts_disable_page_title', '__return_true');
         return $wp_query->set_404();
     }

@@ -14,20 +14,17 @@ namespace Chrisguitarguy\FrontEndAccounts\Form;
 
 class Form implements FormInterface
 {
-    private $fields = array();
+    private array $fields = [];
 
-    private $initial = array();
+    private array $bound = [];
 
-    private $bound = array();
-
-    public static function create(array $initial=array())
+    public static function create(array $initial=[])
     {
         return new self($initial);
     }
 
-    public function __construct(array $initial=array())
+    public function __construct(private array $initial=[])
     {
-        $this->initial = $initial;
     }
 
     /**
@@ -58,7 +55,7 @@ class Form implements FormInterface
      */
     public function validate()
     {
-        $values = $errors = array();
+        $values = $errors = [];
 
         foreach ($this->getFields() as $id => $field) {
             // replace value with bound data if we have it.
@@ -73,7 +70,7 @@ class Form implements FormInterface
             }
         }
 
-        return array($values, $errors);
+        return [$values, $errors];
     }
 
     /**
@@ -90,7 +87,7 @@ class Form implements FormInterface
      *
      * @todo    Maybe lazy load classes here?
      */
-    public function addField($field_id, array $args=array())
+    public function addField($field_id, array $args=[])
     {
         $this->fields[$field_id] = $this->getFieldObject($field_id, $args);
 
@@ -119,11 +116,7 @@ class Form implements FormInterface
      */
     public function getField($field_id)
     {
-        if (isset($this->fields[$field_id])) {
-            return $this->fields[$field_id];
-        }
-
-        return null;
+        return $this->fields[$field_id] ?? null;
     }
 
     /**
@@ -154,73 +147,31 @@ class Form implements FormInterface
 
     protected function getFieldObject($name, array $args)
     {
-        $type = isset($args['type']) ? $args['type'] : 'text';
+        $type = $args['type'] ?? 'text';
 
-        switch ($type) {
-            case 'text':
-                $cls = 'TextInput';
-                break;
-            case 'password':
-                $cls = 'PasswordInput';
-                break;
-            case 'hidden':
-                $cls = 'HiddenInput';
-                break;
-            case 'color':
-                $cls = 'ColorInput';
-                break;
-            case 'date':
-                $cls = 'DateInput';
-                break;
-            case 'datetime':
-                $cls = 'DateTimeInput';
-                break;
-            case 'datetime-local':
-                $cls = 'DateTimeLocalInput';
-                break;
-            case 'email':
-                $cls = 'EmailInput';
-                break;
-            case 'month':
-                $cls = 'MonthInput';
-                break;
-            case 'number':
-                $cls = 'NumberInput';
-                break;
-            case 'search':
-                $cls = 'SearchInput';
-                break;
-            case 'time':
-                $cls = 'TimeInput';
-                break;
-            case 'url':
-                $cls = 'UrlInput';
-                break;
-            case 'week':
-                $cls = 'WeekInput';
-                break;
-            case 'multiple':
-                $cls = 'Multiple';
-                break;
-            case 'radio':
-                $cls = 'Radio';
-                break;
-            case 'select':
-                $cls = 'Select';
-                break;
-            case 'textarea':
-                $cls = 'Textarea';
-                break;
-            case 'checkbox':
-                $cls = 'Checkbox';
-                break;
-            case 'file':
-                $cls = 'FileInput';
-                break;
-            default:
-                $cls = 'DummyField';
-                break;
-        }
+        $cls = match ($type) {
+            'text' => 'TextInput',
+            'password' => 'PasswordInput',
+            'hidden' => 'HiddenInput',
+            'color' => 'ColorInput',
+            'date' => 'DateInput',
+            'datetime' => 'DateTimeInput',
+            'datetime-local' => 'DateTimeLocalInput',
+            'email' => 'EmailInput',
+            'month' => 'MonthInput',
+            'number' => 'NumberInput',
+            'search' => 'SearchInput',
+            'time' => 'TimeInput',
+            'url' => 'UrlInput',
+            'week' => 'WeekInput',
+            'multiple' => 'Multiple',
+            'radio' => 'Radio',
+            'select' => 'Select',
+            'textarea' => 'Textarea',
+            'checkbox' => 'Checkbox',
+            'file' => 'FileInput',
+            default => 'DummyField',
+        };
 
         $cls = "Chrisguitarguy\\FrontEndAccounts\\Form\\Field\\{$cls}";
 

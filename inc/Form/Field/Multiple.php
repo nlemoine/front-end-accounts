@@ -28,7 +28,7 @@ class Multiple extends FieldBase implements FieldInterface
         $name = $this->getName();
         $attr = $this->arrrayToAttr($this->getAdditionalAttributes());
 
-        foreach ($this->getArg('choices', array()) as $key => $label) {
+        foreach ($this->getArg('choices', []) as $key => $label) {
             printf(
                 '<label for="%1$s[%2$s]"><input type="checkbox" name="%1$s[]" id="%1$s[%2$s]" value="%2$s" %3$s /> %4$s</label>',
                 $this->escAttr($name),

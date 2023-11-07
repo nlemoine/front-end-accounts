@@ -14,7 +14,7 @@ namespace Chrisguitarguy\FrontEndAccounts\Form\Validator;
 
 abstract class ValidatorBase implements ValidatorInterface
 {
-    private $msg = '';
+    private string $msg = '';
 
     public function __construct($msg)
     {

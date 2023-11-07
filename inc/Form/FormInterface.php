@@ -66,7 +66,7 @@ interface FormInterface
      * @param   array $args The field's display arguments
      * @return  Field\FieldInterface The field that was added
      */
-    public function addField($field_id, array $args=array());
+    public function addField($field_id, array $args=[]);
 
     /**
      * Remove a field from the form.
