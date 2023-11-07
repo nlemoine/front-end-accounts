@@ -51,7 +51,7 @@ abstract class AccountBase
                 $path .= '/' . $additional;
             }
 
-            if ('/' === $wp_rewrite->permalink_structure[count($wp_rewrite->permalink_structure) - 1]) {
+            if ('/' === substr($wp_rewrite->permalink_structure, -1)) {
                 $path = trailingslashit($path);
             }
         } else {
