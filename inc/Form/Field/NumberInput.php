@@ -19,7 +19,6 @@ class NumberInput extends InputBase
         return 'number';
     }
 
-
     protected function getAdditionalAttributes()
     {
         $atts = parent::getAdditionalAttributes();

@@ -41,7 +41,6 @@ class Select extends FieldBase implements FieldInterface
         echo '</select>';
     }
 
-
     protected function getAdditionalAttributes()
     {
         $atts = parent::getAdditionalAttributes();

@@ -21,13 +21,11 @@ abstract class ValidatorBase implements ValidatorInterface
         $this->setMessage($msg);
     }
 
-
     public function setMessage($errmsg)
     {
         $this->msg = $errmsg;
         return $this;
     }
-
 
     public function getMessage()
     {

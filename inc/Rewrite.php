@@ -36,7 +36,7 @@ class Rewrite extends AccountBase
     public function addRule()
     {
         \add_rewrite_rule(
-            '^account/([A-Za-z0-9_-]+)(/[^/]+)?/?$',
+            '^account/([A-Za-z0-9_-]+)(?:/([^/]+))?/?$',
             'index.php?' . static::ACCOUNT_VAR . '=$matches[1]&' . static::ADDITIONAL_VAR . '=$matches[2]',
             'top'
         );

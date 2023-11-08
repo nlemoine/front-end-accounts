@@ -39,7 +39,6 @@ class Checkbox extends FieldBase implements FieldInterface
         );
     }
 
-
     protected function getAdditionalAttributes()
     {
         $atts = parent::getAdditionalAttributes();

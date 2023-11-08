@@ -29,14 +29,12 @@ class Form implements FormInterface
         return new self($initial);
     }
 
-
     public function render()
     {
         foreach ($this->getFields() as $field) {
             $this->renderRow($field);
         }
     }
-
 
     public function renderField($field)
     {
@@ -47,7 +45,6 @@ class Form implements FormInterface
 
         $this->renderRow($this->fields[$field]);
     }
-
 
     public function validate()
     {
@@ -69,7 +66,6 @@ class Form implements FormInterface
         return [$values, $errors];
     }
 
-
     public function bind(array $data)
     {
         $this->bound = $data;
@@ -90,7 +86,6 @@ class Form implements FormInterface
         return $this->fields[$field_id];
     }
 
-
     public function removeField($field_id)
     {
         if (isset($this->fields[$field_id])) {
@@ -101,12 +96,10 @@ class Form implements FormInterface
         return false;
     }
 
-
     public function getField($field_id)
     {
         return $this->fields[$field_id] ?? null;
     }
-
 
     public function getFields()
     {
